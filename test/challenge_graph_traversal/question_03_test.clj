@@ -45,8 +45,7 @@
   (testing "Given a generated graph,"
     (let [random-graph (question-02/G 10 10)]
       (testing "it should find the shortest path"
-        (is (<= 0 (-> (question-03/D random-graph
+        (is (<= 2 (-> (question-03/D random-graph
                                      (first (keys random-graph))
                                      (last (keys random-graph)))
                       (count))))))))
-

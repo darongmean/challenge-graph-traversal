@@ -7,22 +7,22 @@
 ;; Output:
 ;;    simple connected graph G(n,s) with N vertices and S edges
 
-(defn G [n s]
-  {:pre [(<= (- n 1) s) (< s (/ (* n (- n 1)) 2))]}
-  (let [vertices (->> (range 1 (inc n))
+(defn G [vertex-count edge-count]
+  {:pre [(< (- vertex-count 1) edge-count) (<= edge-count (/ (* vertex-count (- vertex-count 1)) 2))]}
+  (let [vertices (->> (range 1 (inc vertex-count))
                       (map str)
                       (map keyword)
                       (shuffle))
-        base-graph (reduce #(assoc %1 %2 {}) (array-map) vertices)
-        connected-graph-min-edges (map vector vertices (drop 1 vertices))
+        base-graph (reduce #(assoc %1 %2 {}) {} vertices)
+        connected-graph-min-edges (map vector vertices (drop 1 (cycle vertices)))
         other-combinator-edges (for [head (shuffle vertices)
                                      tail (shuffle vertices)
                                      :when (not= head tail)
                                      :when (not-any? #{[head tail]} connected-graph-min-edges)]
                                  [head tail])
         graph-edges (concat connected-graph-min-edges
-                            (take (- s (- n 1)) other-combinator-edges))]
+                            (take (- edge-count vertex-count) other-combinator-edges))]
     (reduce (fn [graph [head tail]]
-              (assoc-in graph [head tail] (inc (rand-int n))))
+              (assoc-in graph [head tail] (inc (rand-int vertex-count))))
             base-graph
             graph-edges)))

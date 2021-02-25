@@ -2,7 +2,8 @@
   (:require
     [challenge-graph-traversal.question-01 :as question-01]
     [clojure.walk :as walk])
-  (:import (java.util Comparator PriorityQueue)))
+  (:import
+    (java.util Comparator PriorityQueue)))
 
 ;; 3. Write an implementation of Dijkstra's algorithm that traverses your graph and
 ;;    outputs the shortest path between any 2 randomly selected vertices.
